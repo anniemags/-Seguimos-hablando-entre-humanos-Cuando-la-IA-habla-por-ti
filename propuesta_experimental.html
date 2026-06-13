@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Seguimos hablando entre humanos? — Propuesta Experimental</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #1a1a1a;
+    background: #f5f4f0;
+  }
+
+  /* ── Header / Banner ────────────────────────────────── */
+  .site-header {
+    background: #1a3a5c;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .site-header .journal-name {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+  }
+  .site-header .journal-abbr {
+    color: #7db8e0;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+
+  /* ── Breadcrumb ─────────────────────────────────────── */
+  .breadcrumb {
+    background: #e8e6e0;
+    padding: 8px 40px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #666;
+  }
+  .breadcrumb a { color: #1a5fa8; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 5px; }
+
+  /* ── Two-column layout ──────────────────────────────── */
+  .page-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 1fr 270px;
+    gap: 32px;
+  }
+
+  /* ── Main content ───────────────────────────────────── */
+  .main-content {}
+
+  .article-type {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1a5fa8;
+    margin-bottom: 12px;
+  }
+
+  h1.article-title {
+    font-family: Georgia, serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #0d2b4a;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #1a5fa8;
+    padding-bottom: 16px;
+  }
+
+  .authors {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 6px;
+  }
+  .authors strong { color: #1a5fa8; }
+  .affiliation {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 18px;
+  }
+
+  .meta-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .badge {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+  .badge-blue { background: #deeaf8; color: #1a5fa8; }
+  .badge-gray { background: #e4e2dc; color: #555; }
+
+  .keywords-row {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 28px;
+    border-left: 3px solid #1a5fa8;
+    padding-left: 10px;
+  }
+  .keywords-row strong { color: #333; }
+
+  /* ── Section headings ───────────────────────────────── */
+  h2.section-title {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #fff;
+    background: #1a5fa8;
+    padding: 7px 12px;
+    margin: 28px 0 14px;
+  }
+
+  h3.sub-title {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin: 18px 0 8px;
+    border-bottom: 1px solid #c8d8ea;
+    padding-bottom: 4px;
+  }
+
+  p { margin-bottom: 12px; }
+
+  /* ── Abstract box ───────────────────────────────────── */
+  .abstract-box {
+    background: #eef4fb;
+    border-left: 4px solid #1a5fa8;
+    padding: 16px 18px;
+    margin-bottom: 28px;
+    font-size: 14px;
+  }
+  .abstract-box .abstract-label {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1a5fa8;
+    margin-bottom: 8px;
+  }
+
+  /* ── Hypothesis table ───────────────────────────────── */
+  .hypothesis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 14px 0 20px;
+  }
+  .hyp-card {
+    border: 1px solid #c8d8ea;
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+  }
+  .hyp-card .hyp-label {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .hyp-null .hyp-label { color: #888; }
+  .hyp-alt .hyp-label { color: #1a5fa8; }
+  .hyp-null { background: #fafaf8; }
+  .hyp-alt { background: #eef4fb; }
+
+  /* ── Conditions table ───────────────────────────────── */
+  table.conditions-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 12px 0 20px;
+  }
+  table.conditions-table th {
+    background: #1a3a5c;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 9px 12px;
+    text-align: left;
+  }
+  table.conditions-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #dde8f0;
+    vertical-align: top;
+  }
+  table.conditions-table tr:nth-child(even) td { background: #f0f5fb; }
+
+  /* ── Variables box ──────────────────────────────────── */
+  .var-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 12px 0 20px;
+  }
+  .var-card {
+    border: 1px solid #dde;
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+  .var-card .var-label {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1a5fa8;
+    margin-bottom: 6px;
+  }
+  .var-card ul {
+    padding-left: 16px;
+    margin: 0;
+  }
+  .var-card li { margin-bottom: 5px; }
+
+  /* ── Stats pill ─────────────────────────────────────── */
+  .stats-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 12px 0 20px;
+  }
+  .stat-pill {
+    background: #1a3a5c;
+    color: #fff;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .stat-pill span { font-size: 16px; margin-right: 5px; }
+
+  /* ── References ─────────────────────────────────────── */
+  .references ol {
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+  .references li { margin-bottom: 10px; color: #333; }
+  .references a { color: #1a5fa8; text-decoration: none; font-size: 12px; }
+  .references a:hover { text-decoration: underline; }
+
+  /* ── Sidebar ────────────────────────────────────────── */
+  .sidebar {}
+
+  .sidebar-box {
+    background: #fff;
+    border: 1px solid #d0dce8;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .sidebar-box-title {
+    background: #1a3a5c;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 12px;
+  }
+  .sidebar-box-body {
+    padding: 12px 14px;
+    font-family: Arial, sans-serif;
+    font-size: 12.5px;
+    color: #333;
+  }
+  .sidebar-box-body p { margin-bottom: 8px; line-height: 1.5; }
+  .sidebar-box-body strong { color: #0d2b4a; }
+
+  .doi-box {
+    background: #eef4fb;
+    border: 1px solid #c8d8ea;
+    border-radius: 3px;
+    padding: 10px 12px;
+    font-family: Arial, monospace;
+    font-size: 11px;
+    color: #1a5fa8;
+    word-break: break-all;
+    margin-bottom: 20px;
+  }
+  .doi-box .doi-label {
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #555;
+    margin-bottom: 4px;
+  }
+
+  .download-btn {
+    display: block;
+    background: #1a5fa8;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 3px;
+    text-decoration: none;
+    margin-bottom: 8px;
+  }
+  .download-btn:hover { background: #0d3d75; }
+
+  /* ── Footer ─────────────────────────────────────────── */
+  .site-footer {
+    background: #1a3a5c;
+    color: #8aacc8;
+    text-align: center;
+    padding: 18px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin-top: 40px;
+  }
+  .site-footer strong { color: #fff; }
+
+  @media (max-width: 750px) {
+    .page-wrap { grid-template-columns: 1fr; }
+    .sidebar { order: -1; }
+    .hypothesis-grid, .var-grid { grid-template-columns: 1fr; }
+    h1.article-title { font-size: 20px; }
+    .breadcrumb { padding: 8px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Banner -->
+<div class="site-header">
+  <div class="journal-abbr">UNIR · MAESTRÍA EN IA</div>
+  <div class="journal-name">Investigación en Inteligencia Artificial · Propuesta Experimental · 2025</div>
+</div>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <a href="#">Inicio</a><span>›</span>
+  <a href="#">Investigación en IA</a><span>›</span>
+  Propuesta Experimental
+</div>
+
+<!-- Page -->
+<div class="page-wrap">
+
+  <!-- ===== MAIN ===== -->
+  <main class="main-content">
+
+    <div class="article-type">Propuesta de Diseño Experimental · Diseño Factorial Inter-Sujetos</div>
+
+    <h1 class="article-title">¿Seguimos hablando entre humanos?<br>Cuando la IA habla por ti</h1>
+
+    <div class="authors"><strong>Ing. Analucía Ramírez Magallanes</strong></div>
+    <div class="affiliation">Maestría en Inteligencia Artificial · Universidad Internacional de La Rioja (UNIR) · 2025</div>
+
+    <div class="meta-badges">
+      <span class="badge badge-blue">Comunicación mediada por IA</span>
+      <span class="badge badge-blue">Percepción de autenticidad</span>
+      <span class="badge badge-blue">Co-creación humano-IA</span>
+      <span class="badge badge-gray">Español / Hispanohablantes</span>
+      <span class="badge badge-gray">Blind Test · ANOVA</span>
+    </div>
+
+    <div class="keywords-row">
+      <strong>Palabras clave:</strong> autenticidad percibida · mensajes generados por IA · co-creación · confianza interpersonal · población hispanohablante · atrofia cognitiva
+    </div>
+
+    <!-- Abstract -->
+    <div class="abstract-box">
+      <div class="abstract-label">Resumen</div>
+      La IA generativa ya supera el Test de Turing en el 73 % de los casos (Jones &amp; Bergen, 2025), pero revelar que un mensaje fue generado por ChatGPT reduce significativamente la percepción de autenticidad y respeto moral del receptor (Dorigoni &amp; Giardino, 2025). Este estudio propone un experimento factorial inter-sujetos con prueba a ciegas para medir cómo el grado de intervención de la IA —100 % humano, 50 % híbrido y 100 % IA— afecta la percepción de claridad, empatía, sospecha de artificialidad y confianza interpersonal en población hispanohablante con distintas trayectorias académicas. La hipótesis central es que la co-creación híbrida preserva la autenticidad percibida sin sacrificar la calidad lingüística.
+    </div>
+
+    <!-- 1. Introducción -->
+    <h2 class="section-title">1. Introducción y motivación</h2>
+
+    <p>La IA generativa representa una ruptura cualitativa respecto a herramientas anteriores: es la primera tecnología masiva que interviene en procesos considerados exclusivamente humanos —el razonamiento, la reflexión emocional y la construcción de identidad. Millones de personas ya delegan en sistemas de IA la redacción de mensajes de apoyo, felicitaciones y comunicación cotidiana.</p>
+
+    <p>Este fenómeno ha alcanzado un umbral crítico. <strong>Jones &amp; Bergen (2025)</strong> documentaron que GPT-4.5 fue identificado como humano el 73 % de las veces, superando a participantes humanos reales (<em>PNAS</em>). La distinción perceptual entre comunicación humana y generada por máquina ya no puede darse por garantizada. Sin embargo, la fluidez técnica no equivale a autenticidad percibida: <strong>Dorigoni &amp; Giardino (2025)</strong> demostraron que revelar la autoría artificial reduce significativamente la empatía y el respeto moral percibidos, incluso con contenido idéntico.</p>
+
+    <p>A nivel técnico, <strong>Fariello et al. (2025)</strong> concluyen que la proliferación de textos híbridos y la mejora continua de los LLMs hacen que la detección automatizada sea aún insuficiente (<em>IJIMAI</em>). Subyacente a todo esto existe el riesgo de una <strong>atrofia cognitiva por delegación</strong>: cuando se delega sistemáticamente la estructuración emocional a un algoritmo, el "músculo" cognitivo responsable de la introspección y la resolución de conflictos interpersonales corre riesgo de debilitarse.</p>
+
+    <p>Existe un vacío notable: la mayoría de los estudios se centran en contextos angloparlantes o en detección técnica, sin explorar cómo la <strong>población hispanohablante</strong> percibe la autenticidad en situaciones cotidianas. Esta propuesta busca cerrar ese vacío.</p>
+
+    <!-- 2. Hipótesis -->
+    <h2 class="section-title">2. Planteamiento de la hipótesis</h2>
+
+    <table class="conditions-table">
+      <thead>
+        <tr>
+          <th>Condición</th>
+          <th>Descripción</th>
+          <th>Proceso de producción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>C1 — Control humano</strong></td>
+          <td>100 % autoría humana</td>
+          <td>Redacción libre sin asistencia digital</td>
+        </tr>
+        <tr>
+          <td><strong>C2 — Híbrida (50/50)</strong></td>
+          <td>Co-creación humano-IA</td>
+          <td>Borrador humano + refinamiento con LLM mediante prompt estandarizado</td>
+        </tr>
+        <tr>
+          <td><strong>C3 — Control IA</strong></td>
+          <td>100 % generación algorítmica</td>
+          <td>Descripción del escenario → LLM → copia íntegra del resultado</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="hypothesis-grid">
+      <div class="hyp-card hyp-alt">
+        <div class="hyp-label">Hipótesis alternativa H₁</div>
+        Los mensajes híbridos (C2) obtendrán puntuaciones de claridad y empatía <strong>significativamente más altas</strong> que los mensajes 100 % IA, alcanzando niveles de autenticidad y confianza estadísticamente equivalentes a los mensajes 100 % humanos.
+      </div>
+      <div class="hyp-card hyp-null">
+        <div class="hyp-label">Hipótesis nula H₀</div>
+        No existirán diferencias estadísticamente significativas en la percepción de claridad, empatía, autenticidad o confianza, independientemente del grado de intervención de la IA.
+      </div>
+    </div>
+
+    <!-- 3. Metodología -->
+    <h2 class="section-title">3. Metodología</h2>
+
+    <p>Diseño experimental <strong>factorial inter-sujetos mediante prueba a ciegas (Blind Test)</strong>. Los evaluadores creerán participar en un estudio sobre «estilos de comunicación institucional», sin conocer el origen del texto.</p>
+
+    <h3 class="sub-title">Muestra</h3>
+
+    <div class="stats-row">
+      <div class="stat-pill"><span>60</span>Emisores (productores)</div>
+      <div class="stat-pill"><span>400</span>Receptores (evaluadores)</div>
+      <div class="stat-pill"><span>4</span>Estratos educativos</div>
+      <div class="stat-pill"><span>3</span>Grupos etarios</div>
+    </div>
+
+    <p><strong>Grupo Emisor (N = 60):</strong> 20 por condición, distribuidos en 4 estratos educativos balanceados (n = 5 por estrato): E1 sin estudios formales / básicos; E2 bachillerato o técnico; E3 universitarios; E4 posgrado. Esta distribución permite documentar si la IA actúa como <em>ecualizador social</em> o despoja de estilo propio a emisores con alta formación.</p>
+
+    <p><strong>Grupo Receptor (N = 400):</strong> Control de tres ejes demográficos — género (50/50), edad (18-30 / 31-45 / 46+ años en tercios iguales) y trayectoria académica (100 personas por estrato, replicando la clasificación de emisores). Cruzar el nivel académico del emisor con el del receptor permite detectar si el «engaño» algorítmico es transversal o está condicionado por la asimetría educativa.</p>
+
+    <h3 class="sub-title">Estímulo experimental</h3>
+    <p>Escenario de alta carga empática: <em>«Mensaje de retroalimentación profesional y disculpa formal de un supervisor a su equipo tras un periodo de alta tensión laboral por errores operativos.»</em> Contexto único para los tres grupos, controlando así el contenido semántico.</p>
+
+    <h3 class="sub-title">Variables</h3>
+    <div class="var-grid">
+      <div class="var-card">
+        <div class="var-label">Variable independiente</div>
+        Grado de intervención de la IA<br>
+        <ul>
+          <li>100 % Humano (C1)</li>
+          <li>50 % Híbrido (C2)</li>
+          <li>100 % IA (C3)</li>
+        </ul>
+      </div>
+      <div class="var-card">
+        <div class="var-label">Variables dependientes (Likert 7 puntos)</div>
+        <ul>
+          <li><strong>Claridad percibida</strong> — coherencia y legibilidad</li>
+          <li><strong>Empatía percibida</strong> — calidez y genuinidad</li>
+          <li><strong>Sospecha de IA</strong> — detección intuitiva</li>
+          <li><strong>Confianza interpersonal</strong> — impacto a largo plazo</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>La fase cuantitativa se complementa con dos preguntas abiertas que permiten identificar los <em>marcadores textuales</em> específicos que detonaron sospecha o generaron confianza.</p>
+
+    <!-- 4. Análisis -->
+    <h2 class="section-title">4. Plan de análisis estadístico</h2>
+
+    <p><strong>ANOVA de una vía</strong> para comparar las medias de los tres grupos en cada variable dependiente (umbral p &lt; 0.05), seguido de pruebas <em>post-hoc</em> de Tukey para localizar exactamente entre qué pares de condiciones residen las diferencias. Un <strong>ANOVA de dos vías</strong> (Nivel Educativo Emisor × Nivel Educativo Receptor) evaluará si la asimetría académica actúa como variable moderadora en la detección de la intervención algorítmica.</p>
+
+    <p>A diferencia de estudios clásicos de detección técnica (Fariello et al., 2025) o pruebas de Turing angloparlantes, este diseño desplaza el foco hacia el <strong>impacto cualitativo en el vínculo interpersonal</strong> dentro del contexto cultural hispanohablante.</p>
+
+    <!-- 5. Justificación -->
+    <h2 class="section-title">5. Justificación de la hipótesis</h2>
+
+    <p>La premisa de que el modelo híbrido (H₁) superará al texto algorítmico se fundamenta en los mecanismos de la co-creación aumentada: la fluidez sintáctica de los LLMs estandariza positivamente la legibilidad, especialmente para emisores con menor escolaridad, actuando como ecualizador lingüístico. Sin embargo, dado que los modelos carecen de intencionalidad situacional, la intervención humana al 50 % inyecta la carga semántica original y el contexto adaptado a la realidad del emisor.</p>
+
+    <p>Al fusionar la estructura matemática de la máquina con la dirección consciente del individuo, el mensaje elude el <em>«valle inquietante»</em> de la automatización absoluta que suele activar el rechazo del receptor. Si los datos validan la hipótesis, se demostrará empíricamente que la <strong>preservación del esfuerzo cognitivo del emisor</strong> es el único filtro capaz de sostener la veracidad y la confianza en la interacción humana.</p>
+
+    <!-- 6. Impacto -->
+    <h2 class="section-title">6. Impacto esperado</h2>
+
+    <p><strong>Sector gubernamental / CONAHCYT:</strong> Evidencia científica para políticas públicas de alfabetización digital y marcos regulatorios que prevengan la pérdida de capacidades de lectoescritura crítica en nuevas generaciones.</p>
+
+    <p><strong>Sector privado / empresas tecnológicas:</strong> La «fórmula de equilibrio» óptima (porcentaje de hibridación humano-IA) para implementar asistentes de escritura y chatbots que aumenten la productividad sin destruir la confianza del consumidor ni la moral de los empleados.</p>
+
+    <p>La investigación evita posturas tecnofóbicas o tecnofílicas acríticas. Propone concebir la IA no como sustituto del pensamiento sino como <strong>andamiaje técnico</strong> que potencia la claridad del lenguaje sin secuestrar la identidad ni mecanizar el afecto.</p>
+
+    <!-- Referencias -->
+    <h2 class="section-title">Referencias bibliográficas</h2>
+    <div class="references">
+      <ol>
+        <li>Jones, C. R. &amp; Bergen, B. K. (2025). Large language models pass the Turing test. <em>Proceedings of the National Academy of Sciences (PNAS)</em>, 122. <a href="https://doi.org/10.1073/pnas.2524472123" target="_blank">https://doi.org/10.1073/pnas.2524472123</a></li>
+        <li>Dorigoni, A. &amp; Giardino, P. L. (2025). The illusion of empathy: evaluating AI-generated outputs in moments that matter. <em>Frontiers in Psychology</em>, 16, Art. 1568911. <a href="https://doi.org/10.3389/fpsyg.2025.1568911" target="_blank">https://doi.org/10.3389/fpsyg.2025.1568911</a></li>
+        <li>Fariello, S., Fenza, G., Forte, F., Gallo, M. &amp; Marotta, M. (2025). Distinguishing Human From Machine: A Review of Advances and Challenges in AI-Generated Text Detection. <em>IJIMAI</em>, 9(3), 6–18. <a href="https://doi.org/10.9781/ijimai.2024.12.002" target="_blank">https://doi.org/10.9781/ijimai.2024.12.002</a></li>
+        <li>Roy, R., Singh, G., Aziz, A. et al. (2026). Findings of the Counter Turing Test: AI-Generated Text Detection. <em>arXiv</em>: 2605.20761. <a href="https://arxiv.org/html/2605.20761v1" target="_blank">arXiv:2605.20761v1</a></li>
+        <li>Fernández-Hernández, A. et al. (2023). Taming the Turing Test. <em>IberLEF 2023: AuTexTification</em>. CEUR Workshop Proceedings, Vol. 3496. <a href="https://ceur-ws.org/Vol-3496/autextification-paper12.pdf" target="_blank">PDF</a></li>
+      </ol>
+    </div>
+
+  </main>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+
+    <div class="doi-box">
+      <div class="doi-label">Identificador del trabajo</div>
+      UNIR · Maestría en IA · 2025<br>
+      Investigación en Inteligencia Artificial
+    </div>
+
+    <a class="download-btn" href="#" onclick="window.print(); return false;">⬇ Descargar / Imprimir</a>
+
+    <div class="sidebar-box">
+      <div class="sidebar-box-title">Información del artículo</div>
+      <div class="sidebar-box-body">
+        <p><strong>Autora:</strong> Ing. Analucía Ramírez Magallanes</p>
+        <p><strong>Programa:</strong> Maestría en Inteligencia Artificial</p>
+        <p><strong>Asignatura:</strong> Investigación en IA</p>
+        <p><strong>Institución:</strong> UNIR</p>
+        <p><strong>Año:</strong> 2025</p>
+        <p><strong>Diseño:</strong> Factorial inter-sujetos, blind test</p>
+        <p><strong>Análisis:</strong> ANOVA de una y dos vías + Tukey</p>
+      </div>
+    </div>
+
+    <div class="sidebar-box">
+      <div class="sidebar-box-title">Diseño muestral</div>
+      <div class="sidebar-box-body">
+        <p><strong>N emisores:</strong> 60 (20 por condición)</p>
+        <p><strong>N evaluadores:</strong> 400 (100 por estrato educativo)</p>
+        <p><strong>Estratos:</strong> Sin estudios, bachillerato, universidad, posgrado</p>
+        <p><strong>Género:</strong> 50 % / 50 %</p>
+        <p><strong>Edades:</strong> 18-30 / 31-45 / 46+</p>
+        <p><strong>Medición:</strong> Likert 7 puntos</p>
+      </div>
+    </div>
+
+    <div class="sidebar-box">
+      <div class="sidebar-box-title">Referencias clave</div>
+      <div class="sidebar-box-body">
+        <p>Jones &amp; Bergen (2025) — GPT-4.5 supera el Test de Turing en el 73 % de los casos · <em>PNAS</em></p>
+        <p>Dorigoni &amp; Giardino (2025) — Revelar autoría IA reduce empatía percibida · <em>Frontiers in Psychology</em></p>
+        <p>Fariello et al. (2025) — Detección automatizada aún insuficiente · <em>IJIMAI</em></p>
+        <p>Roy et al. (2026) — Counter Turing Test · <em>arXiv</em> 2605.20761</p>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<div class="site-footer">
+  <strong>UNIR · Maestría en Inteligencia Artificial</strong> &nbsp;|&nbsp; Investigación en Inteligencia Artificial &nbsp;|&nbsp; 2025<br>
+  Analucía Ramírez Magallanes
+</div>
+
+</body>
+</html>
